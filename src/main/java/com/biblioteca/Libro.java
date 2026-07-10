@@ -8,10 +8,10 @@ public class Libro {
     private int año;
 
     public Libro(int id, String titulo, String autor, int año) {
-        this.id = id;
-        this.titulo = titulo;
-        this.autor = autor;
-        this.año = año;
+        setId(id);
+        setTitulo(titulo);
+        setAutor(autor);
+        setAño(año);
     }
 
     public int getId() {
@@ -31,18 +31,30 @@ public class Libro {
     }
 
     public void setId(int id) {
+        if(id < 0){
+            throw new IllegalArgumentException("El id no puede ser negativo");
+        }
         this.id = id;
     }
 
     public void setTitulo(String titulo) {
+        if(titulo == null || titulo.isBlank()){
+            throw new IllegalArgumentException("El titulo es obligatorio");
+        }
         this.titulo = titulo;
     }
 
     public void setAutor(String autor) {
+        if(autor == null || autor.isBlank()){
+            throw new IllegalArgumentException("El autor es obligatorio");
+        }
         this.autor = autor;
     }
 
     public void setAño(int año) {
+        if(año < 0){
+            throw new IllegalArgumentException("El año no puede ser negativo");
+        }
         this.año = año;
     }
 

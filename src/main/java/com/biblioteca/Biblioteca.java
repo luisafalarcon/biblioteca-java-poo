@@ -14,7 +14,7 @@ public class Biblioteca {
 
     public boolean agregarLibro(Libro libro){
         for(Libro lib: libros){
-            if(lib.getId() == libro.getId()){
+            if(lib.getId() == libro.getId() || lib.getTitulo().equals(libro.getTitulo())){
                 return false;
             }
         }

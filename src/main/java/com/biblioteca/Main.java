@@ -2,6 +2,7 @@ package com.biblioteca;
 
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -10,6 +11,9 @@ public class Main {
         Biblioteca biblioteca = new Biblioteca();
 
         Scanner scanner = new Scanner(System.in);
+
+
+
         int opcion;
 
         do {
@@ -26,32 +30,31 @@ public class Main {
 
             switch (opcion){
                 case 1:
-                    System.out.println("aqui mostramos Libros");
+                    System.out.println("=== Mostrar Libros ===");
                     ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
                     for(Libro lib: libromostrar){
                         System.out.println(lib);
                     }
                     break;
                 case 2:
-                    System.out.println("aqui mostramos un Libro");
+                    System.out.println("=== Encontrar Libro ===");
                     System.out.println("ingresa el id del libro");
                     System.out.println("id del libro");
-                    int idBuscar = scanner.nextInt();
+                    int idBuscar= leerEntero(scanner, "id del libro");
                     Libro buscarLibro = biblioteca.encontrarLibro(idBuscar);
-                    System.out.println(buscarLibro);
+                    if(buscarLibro != null) {
+                        System.out.println(buscarLibro);
+                    }else{
+                        System.out.println("No se encontro ningun libro");
+                    }
                     break;
                 case 3:
-                    System.out.println("aqui editamos Libros");
+                    System.out.println("=== Editar Libro ===");
                     System.out.println("ingresa los siguientes datos");
-                    System.out.println("id del libro a editar");
-                    int idEdit = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("titulo del libro");
-                    String tituloEdit = scanner.nextLine();
-                    System.out.println("autor del libro");
-                    String autorEdit = scanner.nextLine();
-                    System.out.println("año del libro");
-                    int añoEdit = scanner.nextInt();
+                    int idEdit= leerEntero(scanner, "id del libro");
+                    String tituloEdit =leerTexto(scanner, "titulo");
+                    String autorEdit = leerTexto(scanner, "autor");
+                    int añoEdit = leerEntero(scanner, "Año");
 
                     boolean editado = biblioteca.editarLibro(idEdit, tituloEdit, autorEdit,añoEdit);
 
@@ -62,40 +65,64 @@ public class Main {
                     }
                     break;
                 case 4:
-                    System.out.println("aqui eliminamos Libros");
+                    System.out.println("=== Eiminar Libro ===");
                     System.out.println("ingresa el id del libro");
                     System.out.println("id del libro");
-                    int idEliminar = scanner.nextInt();
+                    int idEliminar= leerEntero(scanner, "id del libro");
                     biblioteca.eliminarLibro(idEliminar);
                     break;
                 case 5:
-                    System.out.println("aqui agregamos Libros");
+                    System.out.println("=== Agregar Libro ===");
                     System.out.println("ingresa los siguientes datos");
-                    System.out.println("id del libro");
-                    int id = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("titulo del libro");
-                    String titulo = scanner.nextLine();
-                    System.out.println("autor del libro");
-                    String autor = scanner.nextLine();
-                    System.out.println("año del libro");
-                    int año = scanner.nextInt();
+                    int id= leerEntero(scanner, "id del libro");
+                    String titulo =leerTexto(scanner, "titulo");
+                    String autor = leerTexto(scanner, "autor");
+                    int año = leerEntero(scanner, "Año");
 
-                    Libro libro = new Libro(id, titulo, autor, año);
+                    try{
+                        Libro libro = new Libro(id, titulo, autor, año);
 
-                    boolean agregado = biblioteca.agregarLibro(libro);
+                        boolean agregado = biblioteca.agregarLibro(libro);
 
-                    if(agregado){
-                        System.out.println("Libro agregado correctamente");
-                    }else{
-                        System.out.println("El libro ya existe");
+                        if(agregado){
+                            System.out.println("Libro agregado correctamente");
+                        }else{
+                            System.out.println("El libro ya existe");
+                        }
+                        System.out.println(biblioteca.mostrarLibros().size());
+                    }catch (IllegalArgumentException e){
+                        System.out.println("Debe ingresar un numero entero");
                     }
-                    System.out.println(biblioteca.mostrarLibros().size());
                     break;
             }
         }
         while(opcion !=6);
 
 
+    }
+    public static String leerTexto(Scanner scanner, String mensaje){
+        System.out.println(mensaje);
+        String texto = scanner.nextLine();
+        return texto;
+    }
+
+    public static int leerEntero(Scanner scanner, String mensaje){
+        boolean valido = false;
+        int entero = 0;
+        do{
+            try {
+                System.out.println(mensaje);
+                entero = scanner.nextInt();
+                scanner.nextLine();
+                valido= true;
+
+            }catch (InputMismatchException e){
+                valido = false;
+                scanner.nextLine();
+                System.out.println(e.getMessage());
+            }
+        }while(!valido);
+
+        return entero;
     }
 }

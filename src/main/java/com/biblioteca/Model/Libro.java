@@ -1,4 +1,4 @@
-package com.biblioteca;
+package com.biblioteca.Model;
 
 public class Libro {
 
@@ -31,8 +31,8 @@ public class Libro {
     }
 
     public void setId(int id) {
-        if(id < 0){
-            throw new IllegalArgumentException("El id no puede ser negativo");
+        if(id <= 0){
+            throw new IllegalArgumentException("El id no puede ser negativo o 0");
         }
         this.id = id;
     }

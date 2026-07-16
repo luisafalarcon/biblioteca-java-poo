@@ -1,5 +1,5 @@
-package com.biblioteca;
-import com.biblioteca.Libro;
+package com.biblioteca.Service;
+import com.biblioteca.Model.Libro;
 
 
 import java.util.ArrayList;

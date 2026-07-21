@@ -31,6 +31,17 @@ public class Biblioteca {
         return null;
     }
 
+    public ArrayList<Libro> buscarPorTitulo(String busqueda){
+        ArrayList<Libro> encontrados = new ArrayList<>();
+        for(Libro lib: libros){
+            if(lib.getTitulo().toLowerCase().contains(busqueda.toLowerCase())){
+                encontrados.add(lib);
+            }
+
+        }
+        return encontrados;
+    }
+
     public void eliminarLibro(int idLibro){
         libros.removeIf(lib -> lib.getId() == idLibro);
 

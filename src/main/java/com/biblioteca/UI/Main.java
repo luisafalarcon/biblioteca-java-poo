@@ -2,6 +2,7 @@ package com.biblioteca.UI;
 
 import com.biblioteca.Model.Libro;
 import com.biblioteca.Service.Biblioteca;
+import com.biblioteca.UI.Menu;
 import com.biblioteca.Utils.Utilidades;
 
 import java.util.ArrayList;
@@ -12,23 +13,14 @@ public class Main {
 
         Biblioteca biblioteca = new Biblioteca();
         Utilidades utilidades = new Utilidades();
+        Menu menu = new Menu();
 
         Scanner scanner = new Scanner(System.in);
+       int opcion;
 
-        int opcion;
 
         do {
-            System.out.println("--- MENÚ PRINCIPAL ---");
-            System.out.println("1. Opción 1: Mostrar Libros");
-            System.out.println("2. Opción 2: Buscar un libro");
-            System.out.println("3. Editar Libro");
-            System.out.println("4. Eliminar Libro");
-            System.out.println("5. Agregar libro");
-            System.out.println("6. Salir");
-            System.out.print("Elige una opción: ");
-
-            opcion = scanner.nextInt();
-
+            opcion  = menu.mostrarMenu(scanner);
             switch (opcion){
                 case 1:
                     mostrarLibros(biblioteca);
@@ -37,17 +29,24 @@ public class Main {
                     buscarLibro(scanner, biblioteca, utilidades);
                     break;
                 case 3:
-                    editarLibro(scanner, biblioteca, utilidades);
+                    buscarPorTitulo(scanner, biblioteca, utilidades);
                     break;
                 case 4:
-                    eliminarLibro(scanner, biblioteca, utilidades);
+                    editarLibro(scanner, biblioteca, utilidades);
                     break;
                 case 5:
-                    agregarLibro(scanner, biblioteca, utilidades);
+                    eliminarLibro(scanner, biblioteca, utilidades);
                     break;
+                case 6:
+                    agregarLibro(scanner, biblioteca, utilidades);
+                case 7:
+                    System.out.println("Hasta luego");
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
             }
         }
-        while(opcion !=6);
+        while(opcion !=7);
 
 
     }
@@ -97,6 +96,20 @@ public class Main {
             System.out.println(buscarLibro);
         }else{
             System.out.println("No se encontro ningun libro");
+        }
+    }
+
+    public static void buscarPorTitulo(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
+        System.out.println("=== Encontrar Libro por titulo ===");
+        String busqueda = utilidades.leerTexto(scanner, "Ingrese titulo del libro");
+        ArrayList<Libro> resultados = biblioteca.buscarPorTitulo(busqueda);
+
+        if(resultados.isEmpty()) {
+            System.out.println("No se encontro ningun libro");
+        }else{
+            for (Libro lib : resultados) {
+                System.out.println(lib);
+            }
         }
     }
 

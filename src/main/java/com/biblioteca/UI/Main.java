@@ -48,11 +48,14 @@ public class Main {
                 case 9:
                     organizarPorAutor(biblioteca);
                     break;
+                case 10:
+                    organizarPorAño(biblioteca);
+                    break;
                 default:
                     System.out.println("Opcion no valida");
             }
         }
-        while(opcion !=9);
+        while(opcion !=11);
 
 
     }
@@ -111,6 +114,20 @@ public class Main {
     public static void organizarPorAutor(Biblioteca biblioteca){
         System.out.println("=== Libros ordenados por titulo ===");
         biblioteca.ordenarPorAutor();
+        ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
+
+        if(libromostrar.isEmpty()){
+            System.out.println("No hay libros registrados");
+        }else {
+            for (Libro lib : libromostrar) {
+                System.out.println(lib);
+            }
+        }
+    }
+
+    public static void organizarPorAño(Biblioteca biblioteca){
+        System.out.println("=== Libros ordenados por titulo ===");
+        biblioteca.ordenarPorAño();
         ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
 
         if(libromostrar.isEmpty()){

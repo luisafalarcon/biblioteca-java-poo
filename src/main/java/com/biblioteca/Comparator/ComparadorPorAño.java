@@ -7,6 +7,6 @@ public class ComparadorPorAño implements Comparator<Libro> {
 
     @Override
     public int compare(Libro libro1, Libro libro2) {
-        return libro1.getAño().compareTo(libro2.getAño());
+        return Integer.compare(libro1.getAño(), libro2.getAño());
     }
 }

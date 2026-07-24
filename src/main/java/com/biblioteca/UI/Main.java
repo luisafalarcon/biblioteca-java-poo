@@ -42,11 +42,17 @@ public class Main {
                 case 7:
                     System.out.println("Hasta luego");
                     break;
+                case 8:
+                    organizarPorTitulo(biblioteca);
+                    break;
+                case 9:
+                    organizarPorAutor(biblioteca);
+                    break;
                 default:
                     System.out.println("Opcion no valida");
             }
         }
-        while(opcion !=7);
+        while(opcion !=9);
 
 
     }
@@ -77,6 +83,34 @@ public class Main {
 
     public static void mostrarLibros(Biblioteca biblioteca){
         System.out.println("=== Mostrar Libros ===");
+        ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
+
+        if(libromostrar.isEmpty()){
+            System.out.println("No hay libros registrados");
+        }else {
+            for (Libro lib : libromostrar) {
+                System.out.println(lib);
+            }
+        }
+    }
+
+    public static void organizarPorTitulo(Biblioteca biblioteca){
+        System.out.println("=== Libros ordenados por titulo ===");
+        biblioteca.ordenarPorTitulo();
+        ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
+
+        if(libromostrar.isEmpty()){
+            System.out.println("No hay libros registrados");
+        }else {
+            for (Libro lib : libromostrar) {
+                System.out.println(lib);
+            }
+        }
+    }
+
+    public static void organizarPorAutor(Biblioteca biblioteca){
+        System.out.println("=== Libros ordenados por titulo ===");
+        biblioteca.ordenarPorAutor();
         ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
 
         if(libromostrar.isEmpty()){

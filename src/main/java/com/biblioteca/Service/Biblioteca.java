@@ -1,8 +1,11 @@
 package com.biblioteca.Service;
+import com.biblioteca.Comparator.ComparadorPorAño;
 import com.biblioteca.Model.Libro;
+import com.biblioteca.Comparator.ComparadorPorAutor;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Biblioteca {
 
@@ -59,5 +62,17 @@ public class Biblioteca {
             }
         }
         return false;
+    }
+
+    public void ordenarPorTitulo() {
+        Collections.sort(libros);
+    }
+
+    public void ordenarPorAutor() {
+        Collections.sort(libros, new ComparadorPorAutor());
+    }
+
+    public void ordenarPorAño() {
+        Collections.sort(libros, new ComparadorPorAño());
     }
 }

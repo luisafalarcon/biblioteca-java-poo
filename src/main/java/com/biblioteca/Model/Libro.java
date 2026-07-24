@@ -1,6 +1,6 @@
 package com.biblioteca.Model;
 
-public class Libro {
+public class Libro implements Comparable<Libro> {
 
     private int id;
     private String titulo;
@@ -64,5 +64,10 @@ public class Libro {
                 ", Título: " + titulo +
                 ", Autor: " + autor +
                 ", Año: " + año;
+    }
+
+    @Override
+    public int compareTo(Libro libro) {
+        return this.titulo.compareTo(libro.getTitulo());
     }
 }

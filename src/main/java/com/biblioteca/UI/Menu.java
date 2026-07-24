@@ -17,6 +17,7 @@ public class Menu {
         System.out.println("5. Eliminar Libro");
         System.out.println("6. Agregar libro");
         System.out.println("7. Salir");
+        System.out.println("8. Organizar por titulo");
 
        return  utilidades.leerEntero(scanner, "Ingrese una opcion");
 

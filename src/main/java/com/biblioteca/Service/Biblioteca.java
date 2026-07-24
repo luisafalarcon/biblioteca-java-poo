@@ -45,9 +45,8 @@ public class Biblioteca {
         return encontrados;
     }
 
-    public void eliminarLibro(int idLibro){
-        libros.removeIf(lib -> lib.getId() == idLibro);
-
+    public boolean eliminarLibro(Libro libro){
+        return libros.remove(libro);
     }
 
     public boolean editarLibro(int id, String titulo, String autor, int año ){

@@ -183,8 +183,23 @@ public class Main {
 
     public static void eliminarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
         System.out.println("=== Eiminar Libro ===");
-        int idEliminar= utilidades.leerEntero(scanner, "Ingrese id del libro");
-        biblioteca.eliminarLibro(idEliminar);
+        Libro libroEliminar = biblioteca.encontrarLibro(utilidades.leerEntero(scanner, "Ingrese id del libro"));
+
+        if(libroEliminar == null){
+            System.out.println("El libro no existe");
+            return;
+        }
+
+        System.out.println(libroEliminar);
+
+        String confirmacion = utilidades.leerTexto(scanner, "¿Esta seguro? (si/no)");
+
+        if(confirmacion.equalsIgnoreCase("si")){
+            biblioteca.eliminarLibro(libroEliminar);
+            System.out.println("=== Libro Eliminado ===");
+        }else{
+            System.out.println("=== Libro No Eliminado ===");
+        }
     }
 
 

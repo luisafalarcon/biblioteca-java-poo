@@ -32,41 +32,40 @@ public class Main {
                     buscarPorTitulo(scanner, biblioteca, utilidades);
                     break;
                 case 4:
-                    editarLibro(scanner, biblioteca, utilidades);
-                    break;
-                case 5:
-                    eliminarLibro(scanner, biblioteca, utilidades);
-                    break;
-                case 6:
-                    agregarLibro(scanner, biblioteca, utilidades);
-                case 7:
-                    System.out.println("Hasta luego");
-                    break;
-                case 8:
                     organizarPorTitulo(biblioteca);
                     break;
-                case 9:
+                case 5:
                     organizarPorAutor(biblioteca);
                     break;
-                case 10:
+                case 6:
                     organizarPorAño(biblioteca);
+                    break;
+                case 7:
+                    agregarLibro(scanner, biblioteca, utilidades);
+                    break;
+                case 8:
+                    editarLibro(scanner, biblioteca, utilidades);
+                    break;
+                case 9:
+                    eliminarLibro(scanner, biblioteca, utilidades);
+                    break;
+                case 10:
+                    System.out.println("Hasta Luego");
                     break;
                 default:
                     System.out.println("Opcion no valida");
             }
         }
-        while(opcion !=11);
-
-
+        while(opcion !=10);
     }
 
     public static void agregarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
-        System.out.println("=== Agregar Libro ===");
-        System.out.println("ingresa los siguientes datos");
-        int id= utilidades.leerEntero(scanner, "id del libro");
-        String titulo = utilidades.leerTexto(scanner, "titulo");
-        String autor = utilidades.leerTexto(scanner, "autor");
-        int año = utilidades.leerEntero(scanner, "Año");
+        System.out.println("========== AGREGAR LIBRO ==========");
+        System.out.println("Ingrese los siguientes datos:");
+        int id= utilidades.leerEntero(scanner, "Ingrese el ID del libro:");
+        String titulo = utilidades.leerTexto(scanner, "Ingrese el titulo del libro:");
+        String autor = utilidades.leerTexto(scanner, "Ingrese el Autor del libro:");
+        int año = utilidades.leerEntero(scanner, "Ingrese el Año de publicacion:");
 
         try{
             Libro libro = new Libro(id, titulo, autor, año);
@@ -74,7 +73,7 @@ public class Main {
             boolean agregado = biblioteca.agregarLibro(libro);
 
             if(agregado){
-                System.out.println("Libro agregado correctamente");
+                System.out.println("✔ Libro agregado correctamente");
             }else{
                 System.out.println("El libro ya existe");
             }
@@ -83,9 +82,10 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
+    
 
     public static void mostrarLibros(Biblioteca biblioteca){
-        System.out.println("=== Mostrar Libros ===");
+        System.out.println("========== MOSTRAR LIBROS ==========");
         ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
 
         if(libromostrar.isEmpty()){
@@ -98,7 +98,7 @@ public class Main {
     }
 
     public static void organizarPorTitulo(Biblioteca biblioteca){
-        System.out.println("=== Libros ordenados por titulo ===");
+        System.out.println("========== LIBROS ORDENADOS POR TITULO ==========");
         biblioteca.ordenarPorTitulo();
         ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
 
@@ -112,7 +112,7 @@ public class Main {
     }
 
     public static void organizarPorAutor(Biblioteca biblioteca){
-        System.out.println("=== Libros ordenados por titulo ===");
+        System.out.println("========== LIBROS ORDENADOS POR AUTOR ==========");
         biblioteca.ordenarPorAutor();
         ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
 
@@ -126,7 +126,7 @@ public class Main {
     }
 
     public static void organizarPorAño(Biblioteca biblioteca){
-        System.out.println("=== Libros ordenados por titulo ===");
+        System.out.println("========== LIBROS ORDENADOS POR AÑO ==========");
         biblioteca.ordenarPorAño();
         ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
 
@@ -140,23 +140,23 @@ public class Main {
     }
 
     public static void buscarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
-        System.out.println("=== Encontrar Libro ===");
+        System.out.println("========== BUSCAR LIBRO POR ID ==========");
         int idBuscar= utilidades.leerEntero(scanner, "Ingrese id del libro");
         Libro buscarLibro = biblioteca.encontrarLibro(idBuscar);
         if(buscarLibro != null) {
             System.out.println(buscarLibro);
         }else{
-            System.out.println("No se encontro ningun libro");
+            System.out.println("No se encontró ningún libro con ese ID.");
         }
     }
 
     public static void buscarPorTitulo(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
-        System.out.println("=== Encontrar Libro por titulo ===");
+        System.out.println("========== BUSCAR LIBROS POR TITULO ==========");
         String busqueda = utilidades.leerTexto(scanner, "Ingrese titulo del libro");
         ArrayList<Libro> resultados = biblioteca.buscarPorTitulo(busqueda);
 
         if(resultados.isEmpty()) {
-            System.out.println("No se encontro ningun libro");
+            System.out.println("No se encontro ningun libro con ese Titulo");
         }else{
             for (Libro lib : resultados) {
                 System.out.println(lib);
@@ -165,24 +165,24 @@ public class Main {
     }
 
     public static void editarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
-        System.out.println("=== Editar Libro ===");
-        System.out.println("ingresa los siguientes datos");
-        int idEdit= utilidades.leerEntero(scanner, "id del libro");
-        String tituloEdit = utilidades.leerTexto(scanner, "titulo");
-        String autorEdit = utilidades.leerTexto(scanner, "autor");
-        int añoEdit = utilidades.leerEntero(scanner, "Año");
+        System.out.println("========== EDITAR LIBRO ==========");
+        System.out.println("Ingrese los siguientes datos:");
+        int idEdit= utilidades.leerEntero(scanner, "Ingrese el ID del libro:");
+        String tituloEdit = utilidades.leerTexto(scanner, "Ingrese el titulo del libro:");
+        String autorEdit = utilidades.leerTexto(scanner, "Ingrese el autor del libro:");
+        int añoEdit = utilidades.leerEntero(scanner, "Ingrese el año de publicacion:");
 
         boolean editado = biblioteca.editarLibro(idEdit, tituloEdit, autorEdit,añoEdit);
 
         if(editado){
-            System.out.println("Libro editado correctamente");
+            System.out.println("✔ Libro editado correctamente");
         }else{
             System.out.println("El libro no existe");
         }
     }
 
     public static void eliminarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
-        System.out.println("=== Eiminar Libro ===");
+        System.out.println("========== ELIMINAR LIBRO ==========");
         Libro libroEliminar = biblioteca.encontrarLibro(utilidades.leerEntero(scanner, "Ingrese id del libro"));
 
         if(libroEliminar == null){
@@ -196,11 +196,9 @@ public class Main {
 
         if(confirmacion.equalsIgnoreCase("si")){
             biblioteca.eliminarLibro(libroEliminar);
-            System.out.println("=== Libro Eliminado ===");
+            System.out.println("=== ✔ Libro Eliminado ===");
         }else{
-            System.out.println("=== Libro No Eliminado ===");
+            System.out.println("=== Libro NO Eliminado ===");
         }
     }
-
-
 }

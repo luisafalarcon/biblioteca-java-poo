@@ -70,4 +70,23 @@ public class Libro implements Comparable<Libro> {
     public int compareTo(Libro libro) {
         return this.titulo.compareTo(libro.getTitulo());
     }
+
+    public String convertirATexto(){
+        return id + ";" + titulo + ";" + autor + ";" + año;
+    }
+
+    public static Libro desdeTexto(String linea){
+        String[] partes = linea.split(";");
+
+        if (partes.length != 4) {
+            throw new IllegalArgumentException("Formato inválido...");
+        }
+
+        int id = Integer.parseInt(partes[0]);
+        String titulo = partes[1];
+        String autor = partes[2];
+        int año = Integer.parseInt(partes[3]);
+
+        return new Libro(id,titulo, autor,año);
+    }
 }

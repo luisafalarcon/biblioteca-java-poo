@@ -1,65 +1,75 @@
 package com.biblioteca.UI;
 
 import com.biblioteca.Model.Libro;
+import com.biblioteca.Persistence.PersistenciaLibros;
 import com.biblioteca.Service.Biblioteca;
-import com.biblioteca.UI.Menu;
 import com.biblioteca.Utils.Utilidades;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        Biblioteca biblioteca = new Biblioteca();
         Utilidades utilidades = new Utilidades();
         Menu menu = new Menu();
+        Biblioteca biblioteca;
 
-        Scanner scanner = new Scanner(System.in);
-       int opcion;
+        try {
+            PersistenciaLibros persistencia = new PersistenciaLibros("Libros.txt");
+            ArrayList<Libro> libros = persistencia.leer();
+            biblioteca = new Biblioteca(libros);
 
+            Scanner scanner = new Scanner(System.in);
+            int opcion;
 
-        do {
-            opcion  = menu.mostrarMenu(scanner);
-            switch (opcion){
-                case 1:
-                    mostrarLibros(biblioteca);
-                    break;
-                case 2:
-                    buscarLibro(scanner, biblioteca, utilidades);
-                    break;
-                case 3:
-                    buscarPorTitulo(scanner, biblioteca, utilidades);
-                    break;
-                case 4:
-                    organizarPorTitulo(biblioteca);
-                    break;
-                case 5:
-                    organizarPorAutor(biblioteca);
-                    break;
-                case 6:
-                    organizarPorAño(biblioteca);
-                    break;
-                case 7:
-                    agregarLibro(scanner, biblioteca, utilidades);
-                    break;
-                case 8:
-                    editarLibro(scanner, biblioteca, utilidades);
-                    break;
-                case 9:
-                    eliminarLibro(scanner, biblioteca, utilidades);
-                    break;
-                case 10:
-                    System.out.println("Hasta Luego");
-                    break;
-                default:
-                    System.out.println("Opcion no valida");
+            do {
+
+                opcion = menu.mostrarMenu(scanner);
+                switch (opcion) {
+                    case 1:
+                        mostrarLibros(biblioteca);
+                        break;
+                    case 2:
+                        buscarLibro(scanner, biblioteca, utilidades);
+                        break;
+                    case 3:
+                        buscarPorTitulo(scanner, biblioteca, utilidades);
+                        break;
+                    case 4:
+                        organizarPorTitulo(biblioteca);
+                        break;
+                    case 5:
+                        organizarPorAutor(biblioteca);
+                        break;
+                    case 6:
+                        organizarPorAño(biblioteca);
+                        break;
+                    case 7:
+                        agregarLibro(scanner, biblioteca, utilidades, persistencia);
+                        break;
+                    case 8:
+                        editarLibro(scanner, biblioteca, utilidades, persistencia);
+                        break;
+                    case 9:
+                        eliminarLibro(scanner, biblioteca, utilidades, persistencia);
+                        break;
+                    case 10:
+                        System.out.println("Hasta Luego");
+                        break;
+                    default:
+                        System.out.println("Opcion no valida");
+                }
             }
+            while (opcion != 10);
+        } catch (IOException e) {
+            System.out.println("No se pudo acceder al archivo.");
         }
-        while(opcion !=10);
     }
 
-    public static void agregarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
+
+    public static void agregarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades, PersistenciaLibros persistencia) throws IOException {
         System.out.println("========== AGREGAR LIBRO ==========");
         System.out.println("Ingrese los siguientes datos:");
         int id= utilidades.leerEntero(scanner, "Ingrese el ID del libro:");
@@ -70,9 +80,12 @@ public class Main {
         try{
             Libro libro = new Libro(id, titulo, autor, año);
 
+
+
             boolean agregado = biblioteca.agregarLibro(libro);
 
             if(agregado){
+                persistencia.guardar(biblioteca.mostrarLibros());
                 System.out.println("✔ Libro agregado correctamente");
             }else{
                 System.out.println("El libro ya existe");
@@ -164,7 +177,7 @@ public class Main {
         }
     }
 
-    public static void editarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
+    public static void editarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades, PersistenciaLibros persistencia) throws IOException {
         System.out.println("========== EDITAR LIBRO ==========");
         System.out.println("Ingrese los siguientes datos:");
         int idEdit= utilidades.leerEntero(scanner, "Ingrese el ID del libro:");
@@ -175,16 +188,16 @@ public class Main {
         boolean editado = biblioteca.editarLibro(idEdit, tituloEdit, autorEdit,añoEdit);
 
         if(editado){
+            persistencia.guardar(biblioteca.mostrarLibros());
             System.out.println("✔ Libro editado correctamente");
         }else{
             System.out.println("El libro no existe");
         }
     }
 
-    public static void eliminarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
+    public static void eliminarLibro(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades, PersistenciaLibros persistencia) throws IOException {
         System.out.println("========== ELIMINAR LIBRO ==========");
         Libro libroEliminar = biblioteca.encontrarLibro(utilidades.leerEntero(scanner, "Ingrese id del libro"));
-
         if(libroEliminar == null){
             System.out.println("El libro no existe");
             return;
@@ -196,6 +209,7 @@ public class Main {
 
         if(confirmacion.equalsIgnoreCase("si")){
             biblioteca.eliminarLibro(libroEliminar);
+            persistencia.guardar(biblioteca.mostrarLibros());
             System.out.println("=== ✔ Libro Eliminado ===");
         }else{
             System.out.println("=== Libro NO Eliminado ===");

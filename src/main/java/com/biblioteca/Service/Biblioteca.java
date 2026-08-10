@@ -9,6 +9,10 @@ import java.util.Collections;
 
 public class Biblioteca {
 
+    public Biblioteca(ArrayList<Libro> libros){
+        this.libros=libros;
+    }
+
     private ArrayList<Libro> libros = new ArrayList<>();
 
     public ArrayList<Libro> mostrarLibros(){

@@ -2,9 +2,7 @@ package com.biblioteca.Persistence;
 
 import com.biblioteca.Model.Libro;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class PersistenciaLibros {
@@ -29,8 +27,18 @@ public class PersistenciaLibros {
 
     }
 
-    public ArrayList<Libro> leer() {
-        return null;
+    public ArrayList<Libro> leer() throws IOException{
+        ArrayList<Libro> libros = new ArrayList<>();
+
+        try(BufferedReader lector = new BufferedReader(new FileReader(archivo))){
+
+            String linea;
+            while((linea = lector.readLine()) != null){
+
+                libros.add(Libro.desdeTexto(linea));
+            }
+        }
+        return libros;
     }
 
 }

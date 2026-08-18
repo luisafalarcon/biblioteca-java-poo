@@ -153,7 +153,6 @@ public class Main {
     
 
     public static void mostrarLibros(Controlador controlador){
-        System.out.println("========== MOSTRAR LIBROS ==========");
         ArrayList<Libro> libromostrar = controlador.mostrarLibros();
 
         if(libromostrar.isEmpty()){
@@ -168,43 +167,21 @@ public class Main {
     public static void organizarPorTitulo(Controlador controlador){
         System.out.println("========== LIBROS ORDENADOS POR TITULO ==========");
         controlador.organizarPorTitulo();
-        ArrayList<Libro> libromostrar = controlador.mostrarLibros();
+        mostrarLibros(controlador);
 
-        if(libromostrar.isEmpty()){
-            System.out.println("No hay libros registrados");
-        }else {
-            for (Libro lib : libromostrar) {
-                System.out.println(lib);
-            }
-        }
     }
 
     public static void organizarPorAutor(Controlador controlador){
         System.out.println("========== LIBROS ORDENADOS POR AUTOR ==========");
         controlador.organizarPorAutor();
-        ArrayList<Libro> libromostrar = controlador.mostrarLibros();
+        mostrarLibros(controlador);
 
-        if(libromostrar.isEmpty()){
-            System.out.println("No hay libros registrados");
-        }else {
-            for (Libro lib : libromostrar) {
-                System.out.println(lib);
-            }
-        }
     }
 
     public static void organizarPorAño(Controlador controlador){
         System.out.println("========== LIBROS ORDENADOS POR AÑO ==========");
         controlador.organizarPorAño();
-        ArrayList<Libro> libromostrar = controlador.mostrarLibros();
-
-        if(libromostrar.isEmpty()){
-            System.out.println("No hay libros registrados");
-        }else {
-            for (Libro lib : libromostrar) {
-                System.out.println(lib);
-            }
-        }
+        mostrarLibros(controlador);
     }
 
     public static void buscarLibro(Scanner scanner, Controlador controlador ,Utilidades utilidades){

@@ -32,22 +32,22 @@ public class Main {
                 opcion = menu.mostrarMenu(scanner);
                 switch (opcion) {
                     case 1:
-                        mostrarLibros(biblioteca);
+                        mostrarLibros(controlador);
                         break;
                     case 2:
                         buscarLibro(scanner, controlador, utilidades);
                         break;
                     case 3:
-                        buscarPorTitulo(scanner, biblioteca, utilidades);
+                        buscarPorTitulo(scanner, controlador, utilidades);
                         break;
                     case 4:
-                        organizarPorTitulo(biblioteca);
+                        organizarPorTitulo(controlador);
                         break;
                     case 5:
-                        organizarPorAutor(biblioteca);
+                        organizarPorAutor(controlador);
                         break;
                     case 6:
-                        organizarPorAño(biblioteca);
+                        organizarPorAño(controlador);
                         break;
                     case 7:
                         agregarLibro(scanner, utilidades, controlador);
@@ -56,7 +56,7 @@ public class Main {
                         editarLibro(scanner, utilidades, controlador);
                         break;
                     case 9:
-                        eliminarLibro(scanner, controlador, utilidades, persistencia);
+                        eliminarLibro(scanner, controlador, utilidades);
                         break;
                     case 10:
                         System.out.println("Hasta Luego");
@@ -72,7 +72,7 @@ public class Main {
     }
 
 
-    public static void agregarLibro(Scanner scanner, Utilidades utilidades, Controlador controlador) throws IOException {
+    public static void agregarLibro(Scanner scanner, Utilidades utilidades, Controlador controlador) {
         System.out.println("========== AGREGAR LIBRO ==========");
         System.out.println("Ingrese los siguientes datos:");
         int id= utilidades.leerEntero(scanner, "Ingrese el ID del libro:");
@@ -95,7 +95,7 @@ public class Main {
         }
     }
 
-    public static void editarLibro(Scanner scanner, Utilidades utilidades, Controlador controlador) throws IOException {
+    public static void editarLibro(Scanner scanner, Utilidades utilidades, Controlador controlador) {
         System.out.println("========== EDITAR LIBRO ==========");
         System.out.println("Ingrese los siguientes datos:");
         int idEdit= utilidades.leerEntero(scanner, "Ingrese el ID del libro:");
@@ -117,7 +117,7 @@ public class Main {
         }
     }
 
-    public static void eliminarLibro(Scanner scanner, Controlador controlador, Utilidades utilidades, PersistenciaLibros persistencia) throws IOException {
+    public static void eliminarLibro(Scanner scanner, Controlador controlador, Utilidades utilidades) {
         System.out.println("========== ELIMINAR LIBRO ==========");
 
         int id = utilidades.leerEntero(scanner, "Ingrese id del libro");
@@ -133,18 +133,28 @@ public class Main {
 
         String confirmacion = utilidades.leerTexto(scanner, "¿Esta seguro? (si/no)");
 
-        if(confirmacion.equalsIgnoreCase("si")){
-            controlador.eliminarLibro(id);
-            System.out.println("=== ✔ Libro Eliminado ===");
-        }else{
-            System.out.println("=== Libro NO Eliminado ===");
-        }
+       try{
+           if(confirmacion.equalsIgnoreCase("si")){
+               controlador.eliminarLibro(id);
+               boolean eliminado = controlador.eliminarLibro(id);
+
+               if (eliminado) {
+                   System.out.println("=== ✔ Libro Eliminado ===");
+               } else {
+                   System.out.println("El libro no pudo ser eliminado.");
+               }
+           }else{
+               System.out.println("=== Libro NO Eliminado ===");
+           }
+       }catch (IOException e){
+           System.out.println("❌ No se pudo eliminar el libro.");
+       }
     }
     
 
-    public static void mostrarLibros(Biblioteca biblioteca){
+    public static void mostrarLibros(Controlador controlador){
         System.out.println("========== MOSTRAR LIBROS ==========");
-        ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
+        ArrayList<Libro> libromostrar = controlador.mostrarLibros();
 
         if(libromostrar.isEmpty()){
             System.out.println("No hay libros registrados");
@@ -155,10 +165,10 @@ public class Main {
         }
     }
 
-    public static void organizarPorTitulo(Biblioteca biblioteca){
+    public static void organizarPorTitulo(Controlador controlador){
         System.out.println("========== LIBROS ORDENADOS POR TITULO ==========");
-        biblioteca.ordenarPorTitulo();
-        ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
+        controlador.organizarPorTitulo();
+        ArrayList<Libro> libromostrar = controlador.mostrarLibros();
 
         if(libromostrar.isEmpty()){
             System.out.println("No hay libros registrados");
@@ -169,10 +179,10 @@ public class Main {
         }
     }
 
-    public static void organizarPorAutor(Biblioteca biblioteca){
+    public static void organizarPorAutor(Controlador controlador){
         System.out.println("========== LIBROS ORDENADOS POR AUTOR ==========");
-        biblioteca.ordenarPorAutor();
-        ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
+        controlador.organizarPorAutor();
+        ArrayList<Libro> libromostrar = controlador.mostrarLibros();
 
         if(libromostrar.isEmpty()){
             System.out.println("No hay libros registrados");
@@ -183,10 +193,10 @@ public class Main {
         }
     }
 
-    public static void organizarPorAño(Biblioteca biblioteca){
+    public static void organizarPorAño(Controlador controlador){
         System.out.println("========== LIBROS ORDENADOS POR AÑO ==========");
-        biblioteca.ordenarPorAño();
-        ArrayList<Libro> libromostrar = biblioteca.mostrarLibros();
+        controlador.organizarPorAño();
+        ArrayList<Libro> libromostrar = controlador.mostrarLibros();
 
         if(libromostrar.isEmpty()){
             System.out.println("No hay libros registrados");
@@ -208,10 +218,10 @@ public class Main {
         }
     }
 
-    public static void buscarPorTitulo(Scanner scanner, Biblioteca biblioteca, Utilidades utilidades){
+    public static void buscarPorTitulo(Scanner scanner, Controlador controlador, Utilidades utilidades){
         System.out.println("========== BUSCAR LIBROS POR TITULO ==========");
         String busqueda = utilidades.leerTexto(scanner, "Ingrese titulo del libro");
-        ArrayList<Libro> resultados = biblioteca.buscarPorTitulo(busqueda);
+        ArrayList<Libro> resultados = controlador.buscarPorTitulo(busqueda);
 
         if(resultados.isEmpty()) {
             System.out.println("No se encontro ningun libro con ese Titulo");

@@ -5,6 +5,7 @@ import com.biblioteca.Persistence.PersistenciaLibros;
 import com.biblioteca.Service.Biblioteca;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Controlador {
 
@@ -61,5 +62,25 @@ public class Controlador {
     public Libro encontrarLibro(int id){
 
         return biblioteca.encontrarLibro(id);
+    }
+
+    public ArrayList<Libro> mostrarLibros(){
+        return biblioteca.mostrarLibros();
+    }
+
+    public ArrayList<Libro> buscarPorTitulo(String busqueda){
+        return biblioteca.buscarPorTitulo(busqueda);
+    }
+
+    public void organizarPorTitulo(){
+        biblioteca.ordenarPorTitulo();
+    }
+
+    public void organizarPorAutor(){
+        biblioteca.ordenarPorAutor();
+    }
+
+    public void organizarPorAño(){
+        biblioteca.ordenarPorAño();
     }
 }
